@@ -1,0 +1,34 @@
+<!--
+  Generated template for the ProfesseurListeEleveClassePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Liste des élèves</ion-title>
+
+    <ion-buttons end>
+	    <button ion-button icon-only (click)="newNote()">
+	        <ion-icon name="add"></ion-icon>
+	    </button>
+	</ion-buttons>
+  </ion-navbar >
+
+</ion-header>
+
+
+<ion-content padding>
+	<ion-list>
+	  <ion-item-group>
+	    <ion-item-divider color="light">4eme M8 (Trimestre {{Trimestre}}) </ion-item-divider>
+	    <ion-item *ngFor="let nom of Nom" (click)="afficherNoteEleve(nom)">
+    		{{nom}}
+    		<button ion-button clear item-end>
+	    		<ion-icon name="arrow-dropright"></ion-icon>
+		    </button>
+	    </ion-item>
+	  </ion-item-group>
+	</ion-list>
+</ion-content>

@@ -1,0 +1,51 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+      <ion-title>Profil</ion-title>
+      <ion-buttons end>
+          <button ion-button icon-only (click)="presentPopoverDeconnexion($event)">
+              <ion-icon name="more"></ion-icon>
+          </button>
+      </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form *ngIf="form" [formGroup]="form" (ngSubmit)="createItem()">
+    <input type="file" #fileInput style="visibility: hidden; height: 0px" name="files[]" (change)="processWebImage($event)" />
+    <div class="profile-image-wrapper">
+      <div class="profile-image-placeholder" *ngIf="!this.form.controls.profilePic.value">
+        <ion-icon name="add"></ion-icon>
+        <div>
+          Veuillez choisir une image
+        </div>
+      </div>
+      <div class="profile-image" [style.backgroundImage]="getProfileImageStyle()" *ngIf="this.form.controls.profilePic.value"></div>
+    </div>
+    <ion-list no-lines>
+      <ion-item>
+      	<ion-label fixed>Nom: </ion-label>
+        <ion-input type="text" formControlName="nom"></ion-input>
+      </ion-item>
+      <ion-item>
+      	<ion-label fixed>Prénom: </ion-label>
+        <ion-input type="text" formControlName="prenom"></ion-input>
+      </ion-item>
+      <ion-item>
+      	<ion-label fixed>Contact: </ion-label>
+        <ion-input type="text" formControlName="contact"></ion-input>
+      </ion-item>
+      <ion-item>
+      	<ion-label fixed>Email: </ion-label>
+        <ion-input type="text" formControlName="email"></ion-input>
+      </ion-item>
+      <ion-item>
+      	<ion-label fixed>Adresse: </ion-label>
+        <ion-input type="text" formControlName="adresse"></ion-input>
+      </ion-item><br>
+    </ion-list>
+   <button ion-button (click)="done()" [disabled]="!isReadyToSave" block>
+        Enregistrer
+    </button><br>
+  </form>
+</ion-content>

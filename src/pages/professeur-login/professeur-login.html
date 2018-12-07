@@ -1,0 +1,41 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+      	<ion-title>CONNEXION</ion-title>
+  		<ion-buttons end>
+		    <button ion-button icon-only (click)="presentPopover($event)">
+		        <ion-icon name="more"></ion-icon>
+		    </button>
+		</ion-buttons>
+  </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content padding>
+		<p>
+			<img src="assets/schooImg/schoolink_logo.jpg" class="slide-image"/>
+		</p>
+		<ion-list no-lines class="list">
+			<ion-item>
+	            <ion-input type="text" placeholder="Référence : DD88C4" class="input"></ion-input><br>
+	        </ion-item>
+
+	        <ion-item>
+	            <ion-input type="password" placeholder="Mot de passe :  ********" class="input"></ion-input>
+	        </ion-item><br><br>
+	        
+        </ion-list>
+
+        <p class="footer">
+			<button ion-button (click)="loginProfesseurPage()" round icon-start>
+				<ion-icon name="lock"></ion-icon>
+            	Connexion
+        	</button><br>
+
+        	<button ion-button clear color="dark">
+	            Mot de passe oublié ?
+	        </button><br>
+		</p>
+			
+</ion-content>

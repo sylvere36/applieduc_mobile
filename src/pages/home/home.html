@@ -1,14 +1,31 @@
-<ion-header>
-  <ion-navbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
+<!-- <ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Slides</ion-title>
   </ion-navbar>
-</ion-header>
+</ion-header> -->
 
-<ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+<ion-content class="slide">
+  <ion-slides pager>
+    <ion-slide *ngFor="let slide of slides">
+      <img [src]="slide.image" class="slide-image"/>
+      <h2 class="slide-title" [innerHTML]="slide.title"></h2>
+      <p [innerHTML]="slide.description"></p>
+    </ion-slide>
+    <ion-slide>
+      <img src="assets/schooImg/schoolink_logo.png" class="slide-image"/>
+      <h2 class="slide-title">Prêt à commencer ?</h2>
+      <ion-list>
+          <ion-item class='ionitemchoix'>
+            <ion-label>Quel est votre Profil ?</ion-label>
+            <ion-select [(ngModel)]="profiltype" okText="Ok" cancelText="Annuler">
+              <ion-option *ngFor="let profil of profils" value="{{profil.value}}">{{profil.name}}</ion-option>
+            </ion-select>
+          </ion-item><br>
+          <button ion-button (click)="goToFirstPage()" color="secondary" round outline icon-end >
+            Commencer  
+            <ion-icon name="arrow-forward"></ion-icon>
+          </button>
+        </ion-list>
+    </ion-slide>
+  </ion-slides>
 </ion-content>

@@ -1,0 +1,33 @@
+page-censeur-login {
+	.slide-image {
+	    max-height: 50%;
+	    max-width: 50%;
+	    margin: 0 0 0 30%;
+	 }
+
+	 .list
+	 {
+	 	ion-input
+	 	{
+	 		border-bottom: 1px solid gray;
+	 		text-align: center;
+	 	}
+	 }
+
+
+	 a
+	 {
+	 	text-decoration: lowercase;
+	 }
+
+	 .footer
+	 {
+	 	text-align: center;
+	 }
+
+	 .contentLoginPage
+	 {
+	 	background-color: #fff;
+	 }
+
+}

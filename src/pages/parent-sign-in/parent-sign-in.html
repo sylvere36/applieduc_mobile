@@ -1,0 +1,70 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+      	<ion-title>INSCRIPTION</ion-title>
+  		<ion-buttons end>
+		    <button ion-button icon-only (click)="presentPopover($event)">
+		        <ion-icon name="more"></ion-icon>
+		    </button>
+		</ion-buttons>
+  </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+		<p>
+			<img src="assets/img/ica-slidebox-img-4.png" class="slide-image"/>
+		</p>
+		<ion-list>
+			
+			<ion-item>
+	            <ion-label fixed>Nom </ion-label>
+	            <ion-input type="text" [(ngModel)]="profiltype" ></ion-input>
+	        </ion-item>
+
+	        <ion-item>
+	            <ion-label fixed>Prenom : </ion-label>
+	            <ion-input type="text" [(ngModel)]="profiltype" ></ion-input>
+	        </ion-item>
+
+	        <ion-item>
+	            <ion-label fixed>Contact : </ion-label>
+	            <ion-input type="number" [(ngModel)]="profiltype" ></ion-input>
+	        </ion-item>
+
+	        <ion-item>
+	            <ion-label fixed>Email : </ion-label>
+	            <ion-input type="text" [(ngModel)]="profiltype" ></ion-input>
+	        </ion-item>
+
+	        <ion-item>
+	            <ion-label fixed>Mot de passe : </ion-label>
+	            <ion-input type="password" [(ngModel)]="profiltype" ></ion-input>
+	        </ion-item>
+
+	        <ion-item>
+	            <ion-label fixed>Confirmer mot de passe :  </ion-label>
+	            <ion-input type="password" [(ngModel)]="profiltype" ></ion-input>
+	        </ion-item>
+
+	        <ion-item>
+	            <ion-label fixed>Code Enfant : </ion-label>
+	            <ion-input type="text" [(ngModel)]="profiltype" ></ion-input>
+	        </ion-item>
+
+			<p class="footer">
+				<button ion-button (click)="inscriptionProfesseur()" round outline>
+	            	Inscription
+	        	</button><br>
+
+				<button ion-button clear color="dark">
+            	J'ai déjà un compte.
+	        	</button>
+			</p>
+			
+	       
+        </ion-list>
+
+</ion-content>
