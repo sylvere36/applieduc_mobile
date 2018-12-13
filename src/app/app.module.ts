@@ -3,6 +3,11 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
+import { HttpModule} from '@angular/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+
+import {Network} from '@ionic-native/network';
+
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -34,10 +39,9 @@ import { CenseurLoginPage } from '../pages/censeur-login/censeur-login';
 import { CenseurAcceuilPage } from '../pages/censeur-acceuil/censeur-acceuil';
 import { CenseurNotificationPage } from '../pages/censeur-notification/censeur-notification';
 import { CenseurProfilPage } from '../pages/censeur-profil/censeur-profil';
+
 import { Api } from '../providers/api/api';
 import { ProfesseurProvider } from '../providers/professeur/professeur';
-import { ParentProvider } from '../providers/parent/parent';
-import { CenseurProvider } from '../providers/censeur/censeur';
 
 
 @NgModule({
@@ -71,6 +75,8 @@ import { CenseurProvider } from '../providers/censeur/censeur';
   ],
   imports: [
     BrowserModule,
+    HttpModule,
+    HttpClientModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -106,10 +112,9 @@ import { CenseurProvider } from '../providers/censeur/censeur';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
+    Network,
     Api,
-    ProfesseurProvider,
-    ParentProvider,
-    CenseurProvider
+    ProfesseurProvider
   ]
 })
 export class AppModule {}

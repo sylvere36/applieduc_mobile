@@ -1,17 +1,26 @@
-import { HttpClient } from '@angular/common/http';
+import 'rxjs/add/operator/toPromise';
+
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-/*
-  Generated class for the ProfesseurProvider provider.
+import { Api } from '../api/api';
 
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
+import 'rxjs/add/operator/share'
+import 'rxjs/add/operator/map'
+
+
+
+
 @Injectable()
 export class ProfesseurProvider {
 
-  constructor(public http: HttpClient) {
-    console.log('Hello ProfesseurProvider Provider');
+  results: any;
+  constructor(private http:HttpClient, private api:Api) {
+  }
+
+  login(accountinfo) {
+
+    
   }
 
 }

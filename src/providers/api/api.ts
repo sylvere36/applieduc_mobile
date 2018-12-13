@@ -1,12 +1,12 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import 'rxjs/add/operator/toPromise';
+
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-/**
- * Api is a generic REST Api handler. Set your API url first.
- */
 @Injectable()
 export class Api {
   url: string = 'http://webschoolink.afriqiyagroup.com/index.php/api';
+
 
   constructor(public http: HttpClient) {
   }
@@ -30,7 +30,17 @@ export class Api {
   }
 
   post(endpoint: string, body: any, reqOpts?: any) {
-    return this.http.post(this.url + '/' + endpoint, body, reqOpts);
+
+    return new Promise((resolve, reject) => 
+    {
+      this.http.post(this.url+ '/' + endpoint,JSON.stringify(body))
+      .subscribe(res => {
+        resolve(res);
+      }, (err) => {
+        reject(err);
+      });
+    });
+
   }
 
   put(endpoint: string, body: any, reqOpts?: any) {
