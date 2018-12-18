@@ -3,49 +3,83 @@
   <ion-toolbar color="primary">
       <ion-title>Profil</ion-title>
       <ion-buttons end>
-          <button ion-button icon-only (click)="presentPopoverDeconnexion($event)">
-              <ion-icon name="more"></ion-icon>
+          <button ion-button icon-only (click)="logout()">
+              <ion-icon name="log-out"></ion-icon>
           </button>
       </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <form *ngIf="form" [formGroup]="form" (ngSubmit)="createItem()">
-    <input type="file" #fileInput style="visibility: hidden; height: 0px" name="files[]" (change)="processWebImage($event)" />
-    <div class="profile-image-wrapper">
-      <div class="profile-image-placeholder" *ngIf="!this.form.controls.profilePic.value">
-        <ion-icon name="add"></ion-icon>
-        <div>
-          Veuillez choisir une image
-        </div>
-      </div>
-      <div class="profile-image" [style.backgroundImage]="getProfileImageStyle()" *ngIf="this.form.controls.profilePic.value"></div>
-    </div>
-    <ion-list no-lines>
+  
+    <!-- <ion-list>
+
+      <ion-avatar item-start>
+            <ion-text-avatar>{{ ProfilProfesseur.profilpicture }}</ion-text-avatar>
+      </ion-avatar>
+
       <ion-item>
       	<ion-label fixed>Nom: </ion-label>
-        <ion-input type="text" formControlName="nom"></ion-input>
+        <ion-input type="text" value="{{ ProfilProfesseur.nom }}">
+        </ion-input>
       </ion-item>
       <ion-item>
       	<ion-label fixed>Prénom: </ion-label>
-        <ion-input type="text" formControlName="prenom"></ion-input>
+        <ion-input type="text">
+        </ion-input>
       </ion-item>
       <ion-item>
       	<ion-label fixed>Contact: </ion-label>
-        <ion-input type="text" formControlName="contact"></ion-input>
+        <ion-input type="text" >
+        </ion-input>
       </ion-item>
       <ion-item>
       	<ion-label fixed>Email: </ion-label>
-        <ion-input type="text" formControlName="email"></ion-input>
+        <ion-input type="text">
+        </ion-input>
       </ion-item>
       <ion-item>
       	<ion-label fixed>Adresse: </ion-label>
-        <ion-input type="text" formControlName="adresse"></ion-input>
+        <ion-input type="text">
+        </ion-input>
       </ion-item><br>
     </ion-list>
-   <button ion-button (click)="done()" [disabled]="!isReadyToSave" block>
+   <button ion-button  [disabled]="!isReadyToSave" block>
         Enregistrer
-    </button><br>
-  </form>
+    </button><br> -->
+
+    <form>
+        <div class="profile-image-wrapper">
+          <div class="profile-image-placeholder" *ngIf="!this.form.controls.profilePic.value">
+            <div id="avatar">
+                {{ ProfilProfesseur.profilpicture }}
+            </div>
+          </div>
+        </div>
+        <ion-list no-lines>
+          <ion-item>
+            <ion-label fixed><ion-icon name="person"></ion-icon> Nom: </ion-label>
+            <ion-label>{{ ProfilProfesseur.nom }}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label fixed><ion-icon name="person"></ion-icon> Prénom: </ion-label>
+            <ion-label>{{ ProfilProfesseur.prenom }}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label fixed><ion-icon name="call"></ion-icon> Contact: </ion-label>
+            <ion-label>{{ ProfilProfesseur.contact }}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label fixed><ion-icon name="mail"></ion-icon> Email: </ion-label>
+            <ion-label>{{ ProfilProfesseur.email }}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label fixed><ion-icon name="locate"></ion-icon> Adresse: </ion-label>
+            <ion-label>{{ ProfilProfesseur.adresse }}</ion-label>
+          </ion-item><br>
+        </ion-list>
+       <!-- <button ion-button (click)="done()" [disabled]="!isReadyToSave" text-center>
+            Enregistrer
+        </button><br> -->
+      </form>
 </ion-content>

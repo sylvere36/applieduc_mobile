@@ -14,28 +14,29 @@
 
 
 <ion-content padding>
-	<ion-list>
+	<!-- <ion-list>
 	  <ion-item-group>
-	    <ion-item-divider color="light">4eme M8 (Note {{typeNote}}) </ion-item-divider>
-	    <ion-item *ngFor="let nom of Nom, let i= index">
-	    	<ion-label fixed>{{nom}}</ion-label>
+	    <ion-item *ngFor="let eleve of eleves, let i= index">
+	    	<ion-label fixed>{{eleve.nom +" "+ eleve.prenom}}</ion-label>
 	    	<ion-input type="number" (input)="ajoutNote($event.target.value, i)" name="note"></ion-input>
 	    </ion-item>
 	  </ion-item-group>
 
-	  <button ion-button color="primary" block (click)="validerNote()">Valider</button>
-	</ion-list>
+	  
+	</ion-list> -->
 
 	
 	<ion-grid>
-	    	<ion-row *ngFor="let nom of Nom, let i= index">
+	    	<ion-row *ngFor="let eleve of eleves, let i= index">
 						<ion-col col-8>
-							<ion-label fixed>{{nom}}</ion-label>
+							<ion-label fixed>{{eleve.nom +" "+ eleve.prenom}}</ion-label>
 						</ion-col>
 
 						<ion-col col-4>
-							<ion-input type="number" (input)="ajoutNote($event.target.value, i)" name="note"></ion-input>
+							<ion-input type="number" (input)="ajoutNote($event.target.value, i)" name="note" min=0 max=20 placeholder="note"></ion-input>
 						</ion-col>
 			</ion-row>
 		</ion-grid>
+
+		<button ion-button color="primary" block (click)="validerNote()">Valider</button>
 </ion-content>

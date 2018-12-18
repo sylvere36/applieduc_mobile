@@ -4,9 +4,13 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { HttpModule} from '@angular/http';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
+import { IonTextAvatar } from 'ionic-text-avatar';
 
+
+//Native
 import {Network} from '@ionic-native/network';
+import {NativeStorage} from '@ionic-native/native-storage';
 
 
 import { MyApp } from './app.component';
@@ -71,7 +75,8 @@ import { ProfesseurProvider } from '../providers/professeur/professeur';
 
     ModalDetailNoteEleveComponent,
     PopoverprofilComponent,
-    PopoverdeconnexionComponent
+    PopoverdeconnexionComponent,
+    IonTextAvatar
   ],
   imports: [
     BrowserModule,
@@ -113,6 +118,7 @@ import { ProfesseurProvider } from '../providers/professeur/professeur';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     Network,
+    NativeStorage,
     Api,
     ProfesseurProvider
   ]

@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-title>
-      Description
+      {{nom}}
     </ion-title>
     <ion-buttons start>
       <button ion-button (click)="dismiss()">
@@ -10,17 +10,37 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
+
 <ion-content>
-  <ion-list>
-      <ion-item>
-        <h2>{{nom}}</h2>
-        <p></p>
-      </ion-item>
-      <!-- <ion-item *ngFor="let item of character['items']">
-        {{item.title}}
-        <ion-note item-end>
-          {{item.note}}
-        </ion-note>
-      </ion-item> -->
-  </ion-list>
+
+    <h5 text-center>Note d'Interrogation</h5>
+    <div *ngIf = "noteInterro; else noInterro">
+        <ion-list>
+            <ion-item *ngFor="let note of noteInterro, let i= index">
+              <p>Interro {{ i + 1 }} : {{ note.note }}</p>
+            </ion-item>
+        </ion-list>
+    </div>
+
+    <ng-template #noInterro>
+        <div text-center>
+            Aucune note d'interrogation
+        </div>
+    </ng-template>
+  
+    <h5 text-center>Note de Devoir</h5>
+    <div *ngIf = "noteDevoir; else noDevoir">
+        <ion-list>
+            <ion-item *ngFor="let note of noteDevoir, let i= index">
+              <p>Devoir {{ i + 1 }} : {{ note.note }}</p>
+            </ion-item>
+        </ion-list>
+    </div>
+
+    <ng-template #noDevoir>
+        <div text-center>
+            Aucune note de Devoir
+        </div>
+    </ng-template>
 </ion-content>
+

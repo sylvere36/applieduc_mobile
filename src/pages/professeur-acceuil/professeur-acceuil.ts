@@ -24,12 +24,9 @@ export class ProfesseurAcceuilPage {
   tab3Root: any = AboutPage;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-
-    this.navParams.get("data");
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ProfesseurAcceuilPage');
   }
 
 }
