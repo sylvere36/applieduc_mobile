@@ -43,6 +43,7 @@ import { CenseurLoginPage } from '../pages/censeur-login/censeur-login';
 import { CenseurAcceuilPage } from '../pages/censeur-acceuil/censeur-acceuil';
 import { CenseurNotificationPage } from '../pages/censeur-notification/censeur-notification';
 import { CenseurProfilPage } from '../pages/censeur-profil/censeur-profil';
+import { CenseurViewNotePage } from '../pages/censeur-view-note/censeur-view-note';
 
 import { Api } from '../providers/api/api';
 import { ProfesseurProvider } from '../providers/professeur/professeur';
@@ -72,6 +73,7 @@ import { ProfesseurProvider } from '../providers/professeur/professeur';
     CenseurAcceuilPage,
     CenseurNotificationPage,
     CenseurProfilPage,
+    CenseurViewNotePage,
 
     ModalDetailNoteEleveComponent,
     PopoverprofilComponent,
@@ -108,6 +110,7 @@ import { ProfesseurProvider } from '../providers/professeur/professeur';
     CenseurAcceuilPage,
     CenseurNotificationPage,
     CenseurProfilPage,
+    CenseurViewNotePage,
 
     ModalDetailNoteEleveComponent,
     PopoverprofilComponent,

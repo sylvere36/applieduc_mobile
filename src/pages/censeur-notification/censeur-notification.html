@@ -1,13 +1,182 @@
 
 <ion-header>
-
   <ion-navbar color="primary">
-    <ion-title>Acceuil</ion-title>
-  </ion-navbar >
+    <ion-title>
+      Notifications
+    </ion-title>
+  </ion-navbar>
+
+  <ion-toolbar no-border-top>
+    <ion-segment [(ngModel)]="MenuSeg" color="primary">
+      <ion-segment-button value="allNotif">
+        Tout
+      </ion-segment-button>
+      <ion-segment-button value="validnotif">
+        Valider
+      </ion-segment-button>
+      <ion-segment-button value="nonvalidnotif">
+        Non Valider
+        <ion-badge item-end color="danger" *ngIf="size_non_valide != 0">{{ size_non_valide }}</ion-badge>
+      </ion-segment-button>
+  </ion-segment>
+</ion-toolbar>
 
 </ion-header>
 
 
 <ion-content padding>
 
+  <div [ngSwitch]="MenuSeg">
+    <div *ngSwitchCase="'allNotif'">
+      <div *ngIf="notifications; else Notnotif">
+        <ion-card  *ngFor="let notif of notifications" (click)="vu(notif.id_notification_censeur, notif.valider)"  >
+            <ion-card-content>
+              <ion-row no-padding>
+                  <ion-col text-right>
+                      <ion-badge item-end color="danger" *ngIf="notif.vu == 0">1</ion-badge>
+                  </ion-col>
+              </ion-row>
+              
+              <p>
+                {{ notif.message }}
+              </p>
+            </ion-card-content>
+        
+            <ion-row no-padding>
+              <ion-col text-center>
+                  <button ion-button clear small color="primary" icon-start>
+                      <ion-icon name="calendar"></ion-icon>
+                      {{ notif.date }}
+                    </button>
+              </ion-col>
+              <ion-col text-right>
+                <button ion-button clear small color="primary" icon-start *ngIf="notif.valider == 1" >
+                  <ion-icon name="done-all"></ion-icon>
+                  Valider
+                </button>
+                <button ion-button clear small color="danger" icon-start *ngIf="notif.valider == 0">
+                  <ion-icon name="refresh"></ion-icon>
+                  En Attente
+                </button>
+              </ion-col>
+            </ion-row>
+        </ion-card>
+      </div>
+      <ng-template #Notnotif>
+        <p text-center>Aucune notification</p>
+      </ng-template>
+    </div>
+
+    <div *ngSwitchCase="'validnotif'">
+      <div *ngIf="notifications_valide; else NotnotifValide">
+        <ion-card  *ngFor="let notif of notifications_valide" (click)="vu(notif.id_notification_censeur, notif.valider)"  >
+            <ion-card-content>
+              <ion-row no-padding>
+                  <ion-col text-right>
+                      <ion-badge item-end color="danger" *ngIf="notif.vu == 0">1</ion-badge>
+                  </ion-col>
+              </ion-row>
+              
+              <p>
+                {{ notif.message }}
+              </p>
+            </ion-card-content>
+        
+            <ion-row no-padding>
+              <ion-col text-center>
+                  <button ion-button clear small color="primary" icon-start>
+                      <ion-icon name="calendar"></ion-icon>
+                      {{ notif.date }}
+                    </button>
+              </ion-col>
+              <ion-col text-right>
+                <button ion-button clear small color="primary" icon-start *ngIf="notif.valider == 1" >
+                  <ion-icon name="done-all"></ion-icon>
+                  Valider
+                </button>
+                <button ion-button clear small color="danger" icon-start *ngIf="notif.valider == 0">
+                  <ion-icon name="refresh"></ion-icon>
+                  En Attente
+                </button>
+              </ion-col>
+            </ion-row>
+        </ion-card>
+      </div>
+      <ng-template #NotnotifValide>
+        <p text-center>Aucune notification valider</p>
+      </ng-template>
+    </div>
+
+    <div *ngSwitchCase="'nonvalidnotif'" >
+      <div *ngIf="notifications_non_valide;else NotnotifNonValide">
+        <ion-card   *ngFor="let notif of notifications_non_valide"  (click)="vu(notif.id_notification_censeur, notif.valider)"  >
+            <ion-card-content>
+              <ion-row no-padding>
+                  <ion-col text-right>
+                      <ion-badge item-end color="danger" *ngIf="notif.vu == 0">1</ion-badge>
+                  </ion-col>
+              </ion-row>
+              
+              <p>
+                {{ notif.message }}
+              </p>
+            </ion-card-content>
+        
+            <ion-row no-padding>
+              <ion-col text-center>
+                  <button ion-button clear small color="primary" icon-start>
+                      <ion-icon name="calendar"></ion-icon>
+                      {{ notif.date }}
+                    </button>
+              </ion-col>
+              <ion-col text-right>
+                <button ion-button clear small color="primary" icon-start *ngIf="notif.valider == 1" >
+                  <ion-icon name="done-all"></ion-icon>
+                  Valider
+                </button>
+                <button ion-button clear small color="danger" icon-start *ngIf="notif.valider == 0">
+                  <ion-icon name="refresh"></ion-icon>
+                  En Attente
+                </button>
+              </ion-col>
+            </ion-row>
+        </ion-card>
+      </div>
+
+      <ng-template #NotnotifNonValide>
+        <p text-center>Aucune notification en attente de validation</p>
+      </ng-template>
+    </div>
+</div>
+
+  <!-- <ion-list>
+      <ion-item *ngFor="let notif of notifications" (click)="vu(notif.id_notification_censeur)">
+        
+        <p>
+          {{ notif.message }}
+        </p>
+        <ion-row no-padding>
+            <ion-col>
+              
+            </ion-col>
+            <ion-col text-center>
+                <button ion-button clear small color="primary" icon-start>
+                    <ion-icon name="calendar"></ion-icon>
+                    {{ notif.date }}
+                  </button>
+            </ion-col>
+            <ion-col text-right>
+              <button ion-button clear small color="primary" icon-start *ngIf="notif.valider == 1" >
+                <ion-icon name='musical-notes'></ion-icon>
+                Valider
+              </button>
+              <button ion-button clear small color="danger" icon-start *ngIf="notif.valider == 0">
+                <ion-icon name="refresh"></ion-icon>
+                En Attente
+              </button>
+            </ion-col>
+      
+          </ion-row>
+      </ion-item>
+  </ion-list> -->
 </ion-content>

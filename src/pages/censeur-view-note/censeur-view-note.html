@@ -1,0 +1,28 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Détail note</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <ion-list *ngIf ="eleves_notes">
+      <ion-item-group>
+        <ion-item-divider color="light">Note :{{ info_detail.type_note }} ({{ info_detail.nom_periode }})</ion-item-divider>
+        <ion-item *ngFor="let eleve of eleves_notes">
+          {{eleve.nom + " " + eleve.prenom}}
+          <button ion-button clear item-end>
+            {{ eleve.note }}
+          </button>
+        </ion-item>
+      </ion-item-group>
+    </ion-list>
+
+    <button ion-button round block item-end (click)="valider()" [disabled]="isvalide">
+        <ion-icon name="done-all"></ion-icon>
+        Valider
+    </button>
+</ion-content>
