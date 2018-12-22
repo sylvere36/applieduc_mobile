@@ -16,7 +16,7 @@ export class CenseurViewNotePage {
   id_notification: any;
   valide: any;
   isvalide:boolean=false;
-  info_detail: any;
+  info_detail= {type_note:"", nom_periode:""};
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -41,7 +41,8 @@ export class CenseurViewNotePage {
       this.result.subscribe((res) => {
         if (res.status === true) {
           this.eleves_notes = res.data;
-          this.info_detail = res.info_detail;
+          this.info_detail.type_note = res.info_detail.type_note;
+          this.info_detail.nom_periode = res.info_detail.nom_periode;
         }else
         {
           let alert = this.alertCtrl.create({

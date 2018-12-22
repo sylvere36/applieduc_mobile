@@ -8,7 +8,7 @@
 	    <button ion-button icon-only (click)="newNote()">
 	        <ion-icon name="add"></ion-icon>
 	    </button>
-	</ion-buttons>
+		</ion-buttons>
   </ion-navbar >
 
 </ion-header>
@@ -16,11 +16,11 @@
 
 <ion-content padding>
 
-		
+	<ion-searchbar [(ngModel)]="terms" placeholder="Recherche"></ion-searchbar>
 	<ion-list *ngIf ="eleves; else noeleve">
 	  <ion-item-group>
-	    <ion-item-divider color="light">{{classe}}</ion-item-divider>
-	    <ion-item *ngFor="let eleve of eleves" (click)="afficherNoteEleve(eleve.nom+' '+eleve.prenom, eleve.id)">
+	    <ion-item-divider color="light" text-center text-uppercase>{{classe}}</ion-item-divider>
+	    <ion-item *ngFor="let eleve of eleves | search : terms" (click)="afficherNoteEleve(eleve.nom+' '+eleve.prenom, eleve.id)">
     		{{eleve.nom + " " + eleve.prenom}}
     		<button ion-button clear item-end>
 	    		<ion-icon name="arrow-dropright"></ion-icon>

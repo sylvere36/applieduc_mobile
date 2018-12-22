@@ -1,9 +1,4 @@
-<!--
-  Generated template for the ProfesseurInsertNotePage page.
 
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar color="primary">
@@ -27,6 +22,13 @@
 
 	
 	<ion-grid>
+				<ion-list>
+						<ion-item-divider color="light" text-center text-uppercase>
+							{{infoclasse.NOM_ECOLE}} <br>
+							{{infoclasse.CLASSE}} {{infoclasse.TYPE_CLASSE}} <br>
+							{{infoclasse.MATIERE}} <br>
+						</ion-item-divider>
+				</ion-list>
 	    	<ion-row *ngFor="let eleve of eleves, let i= index">
 						<ion-col col-8>
 							<ion-label fixed>{{eleve.nom +" "+ eleve.prenom}}</ion-label>
@@ -38,5 +40,5 @@
 			</ion-row>
 		</ion-grid>
 
-		<button ion-button color="primary" block (click)="validerNote()">Valider</button>
+		<button ion-button color="primary" block (click)="validerNote()">Enregistrer</button>
 </ion-content>

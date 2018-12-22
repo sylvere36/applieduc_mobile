@@ -11,6 +11,7 @@
     <ion-list  *ngIf="classes;else noClasses">
 			<ion-item *ngFor="let class of classes, let i= index" (click)="accederClasse(class.TYPE_PERIODE, i)">
 				<h2><b>{{ class.NOM_ECOLE }}</b></h2>
+				<h4><b>ANNEE ACADEMIQUE : </b>{{ class.ANNEE_ACADEMIQUE}}</h4>
 				<h4><b>Classe : </b>{{ class.CLASSE + " " + class.TYPE_CLASSE}}</h4>
 				<h4><b>Matière : </b>{{ class.MATIERE }}</h4>
 				<h4><b>Coéfficient : </b>{{ class.COEFFICIENT }}</h4>

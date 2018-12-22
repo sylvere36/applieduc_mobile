@@ -47,6 +47,7 @@ import { CenseurViewNotePage } from '../pages/censeur-view-note/censeur-view-not
 
 import { Api } from '../providers/api/api';
 import { ProfesseurProvider } from '../providers/professeur/professeur';
+import { SearchPipe } from '../pipes/search/search';
 
 
 @NgModule({
@@ -78,7 +79,8 @@ import { ProfesseurProvider } from '../providers/professeur/professeur';
     ModalDetailNoteEleveComponent,
     PopoverprofilComponent,
     PopoverdeconnexionComponent,
-    IonTextAvatar
+    IonTextAvatar,
+    SearchPipe
   ],
   imports: [
     BrowserModule,

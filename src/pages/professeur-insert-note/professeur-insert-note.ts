@@ -52,11 +52,11 @@ export class ProfesseurInsertNotePage {
 
   validerNote()
   {
-		if(this.noteDesEleves.length != this.eleves.length)
+		if(this.noteDesEleves.length == 0)
 		{
 			let alert = this.alertCtrl.create({
 				title: 'Erreur',
-				subTitle: "Vous n'avez pas renseigner la note de tout les élèves.",
+				subTitle: "Aucune note n'a été renseignée",
 				buttons: ['Quitter']
 			});
 			alert.present();
@@ -64,7 +64,7 @@ export class ProfesseurInsertNotePage {
 		}
 
 		for (var i = 0; i < this.noteDesEleves.length; i++) {
-			if (this.noteDesEleves[i].note < 0 || this.noteDesEleves[i].note > 20 || this.noteDesEleves[i].note == null) {
+			if (this.noteDesEleves[i].note < 0 || this.noteDesEleves[i].note > 20 ) {
 				let alert = this.alertCtrl.create({
 					title: 'Erreur',
 					subTitle: "Veuillez reverifier les notes.",

@@ -20,7 +20,8 @@ export class ProfesseurListeEleveClassePage {
 	donneeId: any;
 	result: any;
 	classe: any;
-  eleves = [];
+	terms: any;
+	eleves = [];
 
   constructor(public navCtrl: NavController, 
   			public navParams: NavParams,
@@ -35,25 +36,7 @@ export class ProfesseurListeEleveClassePage {
   }
 
   ionViewWillEnter(){
-		let loading = this.loadingCtrl.create({
-			content: "Veuillez patienter svp !!!"
-		});
-		loading.present();
-		this.result = this.api.get('professeur/eleves/'+ this.donneeId.ID_CLASSE);
-		this.result.subscribe((res) => {
-					loading.dismiss();
-					if (res.status == true) {
-						this.eleves = res.data;
-					}
-				}, err => {
-					let alert = this.alertCtrl.create({
-						title: 'Error of get api',
-						subTitle: err.message,
-						buttons: ['Quitter']
-					});
-					alert.present();
-					console.error('ERROR', err);
-				});
+		this.initializeClass();
 	}
 
   newNote()
@@ -108,6 +91,35 @@ export class ProfesseurListeEleveClassePage {
 					nom_periode: this.nom_periode
 				} 
   		} , { cssClass: 'inset-modal' }).present();
-  }
+	}
+	
+	
+	initializeClass() 
+	{
+		let loading = this.loadingCtrl.create({
+			content: "Veuillez patienter svp !!!"
+		});
+		
+		this.result = this.api.get('professeur/eleves/'+ this.donneeId.ID_CLASSE);
+		this.result.subscribe((res) => {
+					if (res.status == true) {
+						this.eleves = res.data;
+					}
+				}, err => {
+					loading.present();
+					setTimeout(function(){
+						loading.dismiss();
+					}, 10000);
+					
+					let alert = this.alertCtrl.create({
+						title: 'Problème de connection',
+						subTitle: "Veillez verifier votre connexion internet",
+						buttons: ['Quitter']
+					});
+					this.initializeClass();
+					alert.present();
+					console.error('ERROR', err);
+				});
+	}
 
 }
