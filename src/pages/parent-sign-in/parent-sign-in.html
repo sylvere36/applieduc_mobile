@@ -15,47 +15,52 @@
 <ion-content padding>
 
 		<p>
-			<img src="assets/img/ica-slidebox-img-4.png" class="slide-image"/>
+			<img src="assets/schooImg/schoolink_logo.jpg" class="slide-image"/>
 		</p>
 		<ion-list>
 			
 			<ion-item>
 	            <ion-label fixed>Nom </ion-label>
-	            <ion-input type="text" [(ngModel)]="profiltype" ></ion-input>
+	            <ion-input type="text" [(ngModel)]="ref.nom" ></ion-input>
 	        </ion-item>
 
 	        <ion-item>
 	            <ion-label fixed>Prenom : </ion-label>
-	            <ion-input type="text" [(ngModel)]="profiltype" ></ion-input>
+	            <ion-input type="text" [(ngModel)]="ref.prenom" ></ion-input>
 	        </ion-item>
 
 	        <ion-item>
 	            <ion-label fixed>Contact : </ion-label>
-	            <ion-input type="number" [(ngModel)]="profiltype" ></ion-input>
+	            <ion-input type="number" [(ngModel)]="ref.contact" ></ion-input>
 	        </ion-item>
 
 	        <ion-item>
 	            <ion-label fixed>Email : </ion-label>
-	            <ion-input type="text" [(ngModel)]="profiltype" ></ion-input>
-	        </ion-item>
+	            <ion-input type="email" [(ngModel)]="ref.email" ></ion-input>
+			</ion-item>
+			
+			<ion-item>
+				<ion-label fixed>adresse : </ion-label>
+				<ion-input type="text" [(ngModel)]="ref.adresse" ></ion-input>
+			</ion-item>
 
 	        <ion-item>
 	            <ion-label fixed>Mot de passe : </ion-label>
-	            <ion-input type="password" [(ngModel)]="profiltype" ></ion-input>
+	            <ion-input type="password" [(ngModel)]="ref.password" ></ion-input>
 	        </ion-item>
 
 	        <ion-item>
 	            <ion-label fixed>Confirmer mot de passe :  </ion-label>
-	            <ion-input type="password" [(ngModel)]="profiltype" ></ion-input>
+	            <ion-input type="password" [(ngModel)]="ref.comfrirmpass" ></ion-input>
 	        </ion-item>
 
 	        <ion-item>
 	            <ion-label fixed>Code Enfant : </ion-label>
-	            <ion-input type="text" [(ngModel)]="profiltype" ></ion-input>
+	            <ion-input type="text" [(ngModel)]="ref.codeenfant" ></ion-input>
 	        </ion-item>
 
 			<p class="footer">
-				<button ion-button (click)="inscriptionProfesseur()" round outline>
+				<button ion-button (click)="inscriptionProfesseur()" round>
 	            	Inscription
 	        	</button><br>
 

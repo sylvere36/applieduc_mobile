@@ -1,3 +1,4 @@
+import { LocalNotifications } from '@ionic-native/local-notifications';
 import { CenseurViewNotePage } from './../censeur-view-note/censeur-view-note';
 import { Api } from './../../providers/api/api';
 import { NativeStorage } from '@ionic-native/native-storage';
@@ -27,7 +28,8 @@ export class CenseurNotificationPage {
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
     private storage: NativeStorage,
-    private api: Api) {
+		private api: Api,
+		private localNotif: LocalNotifications) {
   }
 
   ionViewWillEnter(){
@@ -47,6 +49,18 @@ export class CenseurNotificationPage {
 						this.notifications_valide = res.data_valid;
 						this.notifications_non_valide = res.data_non_valid;
 						this.size_non_valide = res.size_non_valide;
+
+						
+						if(this.size_non_valide != 0)
+						{
+							//this.localNotif.schedule({});
+							//var date = new Date(this.data.date+" "+this.data.time);
+							//console.log(date);
+							this.localNotif.schedule({
+								text: 'Vous avez '+ this.size_non_valide + ' notifications en attente de validation.',
+								led: 'FF0000',
+							});
+						}
 					}
 				}, err => {
 					loading.dismiss();

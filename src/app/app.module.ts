@@ -11,6 +11,7 @@ import { IonTextAvatar } from 'ionic-text-avatar';
 //Native
 import {Network} from '@ionic-native/network';
 import {NativeStorage} from '@ionic-native/native-storage';
+import { LocalNotifications } from '@ionic-native/local-notifications';
 
 
 import { MyApp } from './app.component';
@@ -123,6 +124,7 @@ import { SearchPipe } from '../pipes/search/search';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     Network,
+    LocalNotifications,
     NativeStorage,
     Api,
     ProfesseurProvider

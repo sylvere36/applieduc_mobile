@@ -116,8 +116,9 @@ export class ProfesseurListeEleveClassePage {
 						subTitle: "Veillez verifier votre connexion internet",
 						buttons: ['Quitter']
 					});
-					this.initializeClass();
 					alert.present();
+					this.initializeClass();
+					
 					console.error('ERROR', err);
 				});
 	}

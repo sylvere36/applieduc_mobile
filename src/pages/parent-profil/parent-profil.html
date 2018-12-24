@@ -2,72 +2,69 @@
 	<ion-toolbar color="primary">
 	    <ion-title>Profil</ion-title>
       <ion-buttons end>
-          <button ion-button icon-only (click)="presentPopoverDeconnexion($event)">
-              <ion-icon name="more"></ion-icon>
-          </button>
+        <button ion-button icon-only (click)="logoutparent()">
+          <ion-icon name="log-out"></ion-icon>
+      </button>
       </ion-buttons>
 	</ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <form *ngIf="form" [formGroup]="form" (ngSubmit)="createItem()">
-    <input type="file" #fileInput style="visibility: hidden; height: 0px" name="files[]" (change)="processWebImage($event)" />
-    <div class="profile-image-wrapper">
-      <div class="profile-image-placeholder" *ngIf="!this.form.controls.profilePic.value">
-        <ion-icon name="add"></ion-icon>
-        <div>
-          Veuillez choisir une image
+
+  <form>
+      <div class="profile-image-wrapper">
+        <div class="profile-image-placeholder">
+          <div id="avatar">
+              {{ ProfilParent.profilpicture }}
+          </div>
         </div>
       </div>
-      <div class="profile-image" [style.backgroundImage]="getProfileImageStyle()" *ngIf="this.form.controls.profilePic.value"></div>
-    </div>
-    <ion-list no-lines>
-      <ion-item>
-      	<ion-label fixed>Nom: </ion-label>
-        <ion-input type="text" formControlName="nom"></ion-input>
-      </ion-item>
-      <ion-item>
-      	<ion-label fixed>Prénom: </ion-label>
-        <ion-input type="text" formControlName="prenom"></ion-input>
-      </ion-item>
-      <ion-item>
-      	<ion-label fixed>Contact: </ion-label>
-        <ion-input type="text" formControlName="contact"></ion-input>
-      </ion-item>
-      <ion-item>
-      	<ion-label fixed>Email: </ion-label>
-        <ion-input type="text" formControlName="email"></ion-input>
-      </ion-item>
-      <ion-item>
-      	<ion-label fixed>Adresse: </ion-label>
-        <ion-input type="text" formControlName="adresse"></ion-input>
-      </ion-item><br>
+      <ion-list no-lines>
+        <ion-item>
+          <ion-label fixed><ion-icon name="person"></ion-icon> Nom: </ion-label>
+          <ion-label>{{ ProfilParent.nom }}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label fixed><ion-icon name="person"></ion-icon> Prénom: </ion-label>
+          <ion-label>{{ ProfilParent.prenom }}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label fixed><ion-icon name="call"></ion-icon> Contact: </ion-label>
+          <ion-label>{{ ProfilParent.contact }}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label fixed><ion-icon name="mail"></ion-icon> Email: </ion-label>
+          <ion-label>{{ ProfilParent.email }}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label fixed><ion-icon name="locate"></ion-icon> Adresse: </ion-label>
+          <ion-label>{{ ProfilParent.adresse }}</ion-label>
+        </ion-item><br>
+      </ion-list>
+
+      <hr>
+    </form>
+    
+
+    <ion-list>
+      <ion-item-group>
+        <ion-item-divider color="light">Changement Mot de passe</ion-item-divider>
+        <ion-item>
+        <ion-label floating>Mot de passe actuel: </ion-label>
+            <ion-input type="password" [(ngModel)]="updatepass.passactuel"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Nouveau Mot de passe: </ion-label>
+            <ion-input type="password" [(ngModel)]="updatepass.newpass"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Confirmer mot de passe: </ion-label>
+            <ion-input type="password" [(ngModel)]="updatepass.confirmpass"></ion-input>
+        </ion-item>
+    </ion-item-group>
     </ion-list>
 
-    <button ion-button (click)="done()" [disabled]="!isReadyToSave" block >
-        Enregistrer
-    </button>
-  </form>
-
-  	<ion-list>
-  		<ion-item-group>
-		    <ion-item-divider color="light">Changement Mot de passe</ion-item-divider>
-		    <ion-item>
-				<ion-label floating>Mot de passe actuel: </ion-label>
-        		<ion-input type="text"></ion-input>
-		    </ion-item>
-		    <ion-item>
-		    	<ion-label floating>Nouveau Mot de passe: </ion-label>
-        		<ion-input type="text"></ion-input>
-		    </ion-item>
-		    <ion-item>
-		    	<ion-label floating>Confirmer mot de passe: </ion-label>
-        		<ion-input type="text"></ion-input>
-		    </ion-item>
-		</ion-item-group>
-  	</ion-list>
-
-  	 <button ion-button (click)="changePassword()" [disabled]="!isReadyToSave" block>
+     <button ion-button (click)="changePassword()" block>
         Changer Mot de Passe
     </button>
 </ion-content>

@@ -1,5 +1,5 @@
 page-parent-profil {
-	.profile-image-wrapper {
+  .profile-image-wrapper {
     text-align: center;
     margin: 20px 0;
 
@@ -18,27 +18,20 @@ page-parent-profil {
     .profile-image-placeholder {
       display: inline-block;
 
-      background-color: #eee;
+      background-color: #0c5373;
       width: 96px;
       height: 96px;
       border-radius: 50%;
 
       font-size: 12px;
 
-      ion-icon {
+      #avatar {
         font-size: 44px;
         margin-bottom: -10px;
-        margin-top: 10px;
+        margin-top: 20px;
+        color: #eee;
       }
     }
   }
 
-  ion-toolbar
-  {
-    ion-title
-    {
-      text-align: center;
-    }
-    
-  }
 }

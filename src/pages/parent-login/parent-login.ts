@@ -1,5 +1,6 @@
+import { Api } from './../../providers/api/api';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, PopoverController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, PopoverController, LoadingController, AlertController } from 'ionic-angular';
 
 import { ParentAcceuilPage } from '../parent-acceuil/parent-acceuil';
 import { ParentSignInPage } from '../parent-sign-in/parent-sign-in';
@@ -8,6 +9,8 @@ import { PopoverprofilComponent } from '../../components/popoverprofil/popoverpr
 
 import { CenseurLoginPage } from '../censeur-login/censeur-login';
 import { ProfesseurLoginPage } from '../professeur-login/professeur-login';
+import { Settings } from '../../models/settings';
+import { NativeStorage } from '@ionic-native/native-storage';
 
 
 @IonicPage()
@@ -17,9 +20,18 @@ import { ProfesseurLoginPage } from '../professeur-login/professeur-login';
 })
 export class ParentLoginPage {
 
+  ref = {email: '', password: ''};
+
+  setting: Settings = {type_user: "", identifiant: "", logged: false};
+  result: any;
+  
   constructor(public navCtrl: NavController, 
   			public navParams: NavParams, 
-  			private popoverCtrl: PopoverController) {
+  			private popoverCtrl: PopoverController,
+         private loadingCtrl: LoadingController,
+         private alertCtrl: AlertController,
+         private storage: NativeStorage, 
+         private api: Api) {
   }
 
   ionViewDidLoad() {
@@ -64,10 +76,69 @@ export class ParentLoginPage {
 
   loginParentPage()
   {
-  	this.navCtrl.setRoot(ParentAcceuilPage, {}, {
-        animate: true,
-        direction: 'forward'
-     });
+
+    let loading = this.loadingCtrl.create({
+      content: "Veuillez patienter svp !!!"
+    });
+    loading.present();
+    
+      this.api.post('parents/login', this.ref).then((results) => {
+        loading.dismiss();
+        
+        this.result = results;
+  
+          if(this.result.status == true)
+          {
+            //Stockage des infos en locale( Utilisation de native storage )
+            this.setting.logged = true;
+            this.setting.type_user = "parent";
+            this.setting.identifiant = this.result.data[0].id;
+
+            this.storage.setItem('settings_user', this.setting)
+            .then(
+              () =>{
+                this.navCtrl.setRoot(ParentAcceuilPage, {}, {
+                  animate: true,
+                  direction: 'forward'
+                });
+  
+              },
+              error =>{
+                let alert = this.alertCtrl.create({
+                  title: 'Error de stockage' ,
+                  subTitle: error.message,
+                  buttons: ['Quitter']
+                });
+                alert.present();
+              } 
+            );
+  
+          }else
+          {
+            let alert = this.alertCtrl.create({
+              title: 'Erreur de connection',
+              subTitle: this.result.message,
+              buttons: ['Quitter']
+            });
+            alert.present();
+          }
+  
+        }, (err) => {
+					
+					let alert = this.alertCtrl.create({
+						title: 'Problème de connection',
+						subTitle: "Veillez verifier votre connexion internet",
+						buttons: ['Quitter']
+					});
+          
+          setTimeout(function(){
+            loading.dismiss();
+            alert.present();
+					}, 10000);
+					
+					console.error('ERROR', err);
+      });
+  	
   }
 
   goToSignInParentPage()
