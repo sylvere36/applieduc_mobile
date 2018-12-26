@@ -1,7 +1,6 @@
 
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, 
-  PopoverController,ToastController, AlertController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, PopoverController, AlertController, LoadingController, Platform } from 'ionic-angular';
 
 import { PopoverprofilComponent } from '../../components/popoverprofil/popoverprofil';
 import { ProfesseurAcceuilPage } from '../professeur-acceuil/professeur-acceuil';
@@ -9,7 +8,6 @@ import { ProfesseurAcceuilPage } from '../professeur-acceuil/professeur-acceuil'
 import { CenseurLoginPage } from '../censeur-login/censeur-login';
 import { ParentLoginPage } from '../parent-login/parent-login';
 
-import { ProfesseurProvider } from './../../providers/professeur/professeur';
 
 import { Api } from '../../providers/api/api';
 import {Settings} from '../../models/settings';
@@ -35,6 +33,7 @@ export class ProfesseurLoginPage {
   setting: Settings = {type_user: "",identifiant: "", logged:false };
   connected: Subscription;
   disconnected: Subscription;
+  errormessage: any;
 
 
   constructor(public navCtrl: NavController,
@@ -42,11 +41,11 @@ export class ProfesseurLoginPage {
          private network: Network,
          private storage: NativeStorage,
          private popoverCtrl: PopoverController,
-         private profprovider: ProfesseurProvider,
-         private toastCtrl: ToastController,
          private loadingCtrl: LoadingController,
          private alertCtrl: AlertController,
-         private api: Api) {
+         private api: Api,
+         private plateform: Platform
+         ) {
 
       
   }
@@ -121,8 +120,6 @@ export class ProfesseurLoginPage {
 
     loading.present();
 
-    // if(this.connect == true)
-    // {
       this.api.post('professeur/login', this.ref).then((results) => {
         loading.dismiss();
         
@@ -165,18 +162,36 @@ export class ProfesseurLoginPage {
           }
   
         }, (err) => {
-          console.log('ERROR', err);
+           if (this.network.type == 'none' ) { 
+              this.errormessage = "Veillez verifier votre connexion internet";
+            } else {
+              this.errormessage = err.message;
+            }
+            
+            let alert = this.alertCtrl.create({
+              title: 'Problème de connection',
+              subTitle: this.errormessage,
+              buttons: [
+                {
+                  text: 'Quitter',
+                  handler: () => {
+                    this.plateform.exitApp();
+                  }
+                },
+                {
+                  text: 'Réessayer',
+                  handler: () => {
+                    this.loginProfesseurPage();
+                  }
+                }
+              ]
+            });
+            
+            setTimeout(function(){
+              loading.dismiss();
+              alert.present();
+            }, 10000);
       });
-    // }else
-    // {
-    //   loading.dismiss();
-    //   let alert = this.alertCtrl.create({
-    //       title: 'Probleme de connection',
-    //       subTitle: "Aucune connexion internet",
-    //       buttons: ['Quitter']
-    //     });
-    //     alert.present();
-    // }
     
   }
 

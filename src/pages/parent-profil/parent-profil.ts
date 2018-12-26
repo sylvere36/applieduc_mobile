@@ -1,7 +1,7 @@
+import { Network } from '@ionic-native/network';
 import { Api } from './../../providers/api/api';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IonicPage, NavController, NavParams, PopoverController, App, AlertController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, PopoverController, App, AlertController, LoadingController, Platform } from 'ionic-angular';
 
 import { Profil } from '../../models/profil';
 
@@ -17,6 +17,7 @@ import { NativeStorage } from '@ionic-native/native-storage';
 })
 export class ParentProfilPage {
 
+  errormessage: any;
   result: any;
   nomprofil: string;
   prenomprofil: string;
@@ -33,54 +34,14 @@ export class ParentProfilPage {
           private alertCtrl: AlertController,
           private loadingCtrl: LoadingController,
           private storage: NativeStorage,
-          private api: Api) {
+          private api: Api,
+          private network: Network,
+          private plateform: Platform) {
 
   }
 
   ionViewWillEnter(){
-		let loading = this.loadingCtrl.create({
-      		content: "Veuillez patienter svp !!!"
-		});
-		loading.present();
-		this.storage.getItem('settings_user')
-		.then(
-			data => 
-			{
-				this.result = this.api.get('parents/profil/'+ data.identifiant);
-				this.result.subscribe((res) => {
-					loading.dismiss();
-					if (res.status == true) {
-            this.nomprofil = res.data[0].nom;
-            this.prenomprofil = res.data[0].prenom;
-            this.ProfilParent.profilpicture = this.nomprofil.charAt(0)+this.prenomprofil.charAt(0);
-            this.ProfilParent.nom = res.data[0].nom;
-            this.ProfilParent.prenom = res.data[0].prenom;
-            this.ProfilParent.contact = res.data[0].telephone;
-            this.ProfilParent.email = res.data[0].email_mobile;
-            this.ProfilParent.adresse = res.data[0].adresse;
-					}
-				}, err => {
-					let alert = this.alertCtrl.create({
-						title: 'Probleme de connexion',
-						subTitle: "Verifier votre connexion internet",
-						buttons: ['Quitter']
-					});
-					alert.present();
-					console.error('ERROR', err);
-				});
-			},
-			error => 
-			{
-				loading.dismiss();
-				let alert = this.alertCtrl.create({
-								title: 'Error of get storage',
-								subTitle: error.message,
-								buttons: ['Quitter']
-							});
-							alert.present();
-				console.error(error);
-			}
-		);
+		this.getparentprofil();
   }
   
 
@@ -100,6 +61,98 @@ export class ParentProfilPage {
 
   changePassword(){}
 
-  logoutparent(){}
+  logoutparent()
+  {
+    const confirm = this.alertCtrl.create({
+      title: 'Déconnexion',
+      message: 'Êtes-vous sûr de vouloir vous deconnectez?',
+      buttons: [
+        {
+          text: 'Non',
+          handler: () => {
+            
+          }
+        },
+        {
+          text: 'Oui',
+          handler: () => {
+            this.storage.remove('settings_user');
+            this.storage.setItem('settings_user', this.setting_deconnexion);
+            this.app.getRootNav().setRoot(ParentLoginPage);
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
+
+  getparentprofil()
+  {
+    let loading = this.loadingCtrl.create({
+      content: "Veuillez patienter svp !!!"
+    });
+    loading.present();
+    this.storage.getItem('settings_user')
+    .then(
+      data => 
+      {
+        this.result = this.api.get('parents/profil/'+ data.identifiant);
+        this.result.subscribe((res) => {
+          loading.dismiss();
+          if (res.status == true) {
+            this.nomprofil = res.data[0].nom;
+            this.prenomprofil = res.data[0].prenom;
+            this.ProfilParent.profilpicture = this.nomprofil.charAt(0)+this.prenomprofil.charAt(0);
+            this.ProfilParent.nom = res.data[0].nom;
+            this.ProfilParent.prenom = res.data[0].prenom;
+            this.ProfilParent.contact = res.data[0].telephone;
+            this.ProfilParent.email = res.data[0].email_mobile;
+            this.ProfilParent.adresse = res.data[0].adresse;
+          }
+        }, err => {
+          if (this.network.type == 'none' ) { 
+            this.errormessage = "Veillez verifier votre connexion internet";
+          } else {
+          this.errormessage = err.message;
+          }
+            
+            let alert = this.alertCtrl.create({
+            title: 'Problème de connection',
+            subTitle: this.errormessage,
+            buttons: [
+              {
+              text: 'Quitter',
+              handler: () => {
+                this.plateform.exitApp();
+              }
+              },
+              {
+              text: 'Réessayer',
+              handler: () => {
+                this.getparentprofil();
+              }
+              }
+            ]
+          });
+            
+          setTimeout(function(){
+          loading.dismiss();
+          alert.present();
+          }, 10000);
+        });
+      },
+      error => 
+      {
+        loading.dismiss();
+        let alert = this.alertCtrl.create({
+                title: 'Error of get storage',
+                subTitle: error.message,
+                buttons: ['Quitter']
+              });
+              alert.present();
+        console.error(error);
+      }
+    );
+  }
 
 }

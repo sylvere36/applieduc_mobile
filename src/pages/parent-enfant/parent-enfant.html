@@ -11,18 +11,35 @@
 	    </button>
 	</ion-fab>
 
-	<ion-card>
+	<ion-card *ngFor="let enf of enfants" >
 	  <ion-card-header>
-	    NOUDEGBE Jean de Dieu
+	    {{ enf.NOM_ELEVE }} {{ enf.PRENOM_ELEVE }}
 	  </ion-card-header>
 
 	  	<ion-grid>
+		  
 		  <ion-row>
+		    <ion-col col-4>
+		    	<b>Sexe : </b>
+		    </ion-col>
+		    <ion-col col-6>
+		    	{{ enf.SEXE }} 
+		    </ion-col>
+			</ion-row>
+			<ion-row>
 		    <ion-col col-4>
 		    	<b>Ecole :</b>
 		    </ion-col>
 		    <ion-col col-6>
-		    	Clé de la reussite
+		    	{{ enf.NOM_ECOLE }}
+		    </ion-col>
+			</ion-row>
+			<ion-row>
+		    <ion-col col-4>
+		    	<b>ANNEE :</b>
+		    </ion-col>
+		    <ion-col col-6>
+		    	{{ enf.ANNEE_ACADEMIQUE }}
 		    </ion-col>
 		  </ion-row>
 		  <ion-row>
@@ -30,23 +47,7 @@
 		    	<b>Classe :</b>
 		    </ion-col>
 		    <ion-col col-6>
-		    	4eme M8
-		    </ion-col>
-		  </ion-row>
-		  <ion-row>
-		    <ion-col col-4>
-		    	<b>Sexe : </b>
-		    </ion-col>
-		    <ion-col col-6>
-		    	Masculin
-		    </ion-col>
-		  </ion-row>
-		  <ion-row>
-		    <ion-col col-4>
-		    	<b>Age : </b>
-		    </ion-col>
-		    <ion-col col-6>
-		    	13 ans
+		    	{{ enf.CLASSE }} 
 		    </ion-col>
 		  </ion-row>
 		</ion-grid>

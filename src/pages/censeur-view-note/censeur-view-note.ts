@@ -1,8 +1,7 @@
 import { Api } from './../../providers/api/api';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, AlertController, ToastController } from 'ionic-angular';
-
-
+import { IonicPage, NavController, NavParams, LoadingController, AlertController, ToastController, Platform } from 'ionic-angular';
+import { Network } from '@ionic-native/network';
 
 @IonicPage()
 @Component({
@@ -17,13 +16,16 @@ export class CenseurViewNotePage {
   valide: any;
   isvalide:boolean=false;
   info_detail= {type_note:"", nom_periode:""};
+  errormessage: any;
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
     private api: Api,
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
-    private alertCtrl: AlertController) {
+    private alertCtrl: AlertController,
+    private plateform: Platform,
+    private network: Network) {
 
       this.id_notification = navParams.get('id_notification');
       this.valide = navParams.get('valider');
@@ -36,31 +38,7 @@ export class CenseurViewNotePage {
   }
 
   ionViewWillEnter(){
-	
-      this.result = this.api.get('censeur/liste_eleve_note/'+ this.id_notification);
-      this.result.subscribe((res) => {
-        if (res.status === true) {
-          this.eleves_notes = res.data;
-          this.info_detail.type_note = res.info_detail.type_note;
-          this.info_detail.nom_periode = res.info_detail.nom_periode;
-        }else
-        {
-          let alert = this.alertCtrl.create({
-            title: 'Error',
-            subTitle: res.message,
-            buttons: ['Quitter']
-          });
-          alert.present();
-        }
-      }, err => {
-        let alert = this.alertCtrl.create({
-          title: 'Error of get api',
-          subTitle: this.id_notification,
-          buttons: ['Quitter']
-        });
-        alert.present();
-        console.error('ERROR', err);
-      });
+    this.getelevenote();
   }
 
   valider()
@@ -84,14 +62,82 @@ export class CenseurViewNotePage {
         toast.present();
       }
     }, err => {
-      let alert = this.alertCtrl.create({
-        title: 'Error of get api',
-        subTitle: err.message,
-        buttons: ['Quitter']
+      if (this.network.type == 'none' ) { 
+        this.errormessage = "Veillez verifier votre connexion internet";
+      } else {
+      this.errormessage = err.message;
+      }
+        
+        let alert = this.alertCtrl.create({
+        title: 'Problème de connection',
+        subTitle: this.errormessage,
+        buttons: [
+        {
+          text: 'Quitter',
+          handler: () => {
+            this.plateform.exitApp();
+        }
+        },
+        {
+          text: 'Réessayer',
+          handler: () => {
+            this.valider();
+        }
+        }
+        ]
       });
+        
+      setTimeout(function(){
+      loading.dismiss();
       alert.present();
-      console.error('ERROR', err);
+      }, 10000);
     });
+  }
+
+  getelevenote()
+  {
+    this.result = this.api.get('censeur/liste_eleve_note/'+ this.id_notification);
+      this.result.subscribe((res) => {
+        if (res.status === true) {
+          this.eleves_notes = res.data;
+          this.info_detail.type_note = res.info_detail.type_note;
+          this.info_detail.nom_periode = res.info_detail.nom_periode;
+        }else
+        {
+          let alert = this.alertCtrl.create({
+            title: 'Erreur',
+            subTitle: res.message,
+            buttons: ['Quitter']
+          });
+          alert.present();
+        }
+      }, err => {
+        if (this.network.type == 'none' ) { 
+          this.errormessage = "Veillez verifier votre connexion internet";
+        } else {
+        this.errormessage = err.message;
+        }
+          
+          let alert = this.alertCtrl.create({
+          title: 'Problème de connection',
+          subTitle: this.errormessage,
+          buttons: [
+          {
+            text: 'Quitter',
+            handler: () => {
+              this.plateform.exitApp();
+          }
+          },
+          {
+            text: 'Réessayer',
+            handler: () => {
+              this.getelevenote();
+          }
+          }
+          ]
+        });
+        alert.present();
+      });
   }
 
 }

@@ -1,6 +1,7 @@
+import { Network } from '@ionic-native/network';
 import { Api } from './../../providers/api/api';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController, ToastController, Platform } from 'ionic-angular';
 
 import { NoteEleve } from '../../models/note';
 
@@ -18,13 +19,16 @@ export class ProfesseurInsertNotePage {
 	id_eleve: any;
 	noteEleve: NoteEleve = {idEleve: "", note: 0};
 	data: {};
+	errormessage: any;
 
   constructor(public navCtrl: NavController, 
 					public navParams: NavParams,
 					private alertCtrl: AlertController,
 					private loading: LoadingController,
 					private toastCtrl: ToastController,
-					private api: Api) {
+					private api: Api,
+					private network: Network,
+					private plateform: Platform) {
 		this.eleves = this.navParams.get("eleves");
 		this.nom_periode = this.navParams.get("nom_periode");
   	this.infoclasse = this.navParams.get("infoclasse");
@@ -110,12 +114,31 @@ export class ProfesseurInsertNotePage {
 					alert.present();
 				}
 			}, (err) => {
-				let alert = this.alertCtrl.create({
-					title: 'Erreur',
-					subTitle: err.message,
-					buttons: ['Quitter']
-				});
-				alert.present();
+				if (this.network.type == 'none' ) { 
+					this.errormessage = "Veillez verifier votre connexion internet";
+				  } else {
+					this.errormessage = err.message;
+				  }
+				  
+				  let alert = this.alertCtrl.create({
+					title: 'Problème de connection',
+					subTitle: this.errormessage,
+					buttons: [
+					  {
+						text: 'Quitter',
+						handler: () => {
+						  this.plateform.exitApp();
+						}
+					  },
+					  {
+						text: 'Réessayer',
+						handler: () => {
+						  this.validerNote();
+						}
+					  }
+					]
+				  });
+				  alert.present();
 		});
 
 

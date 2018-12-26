@@ -1,8 +1,9 @@
+import { Network } from '@ionic-native/network';
 import { Api } from './../../providers/api/api';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { Settings } from './../../models/settings';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, App, AlertController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, App, AlertController, LoadingController, Platform } from 'ionic-angular';
 
 import { Profil } from '../../models/profil';
 import { CenseurLoginPage } from '../censeur-login/censeur-login';
@@ -23,6 +24,7 @@ export class CenseurProfilPage {
                 {profilpicture:"", nom: "",prenom:"", contact:"", email:"", adresse:"" };
 
   updatepass =  {passactuel: "", newpass: "", confirmpass: "", email: ""};
+  errormessage: any;
 
   constructor(public navCtrl: NavController, 
   			  public navParams: NavParams,
@@ -30,7 +32,9 @@ export class CenseurProfilPage {
               private alertCtrl: AlertController,
               private loadingCtrl: LoadingController,
               private storage: NativeStorage,
-              private api: Api) {
+              private api: Api,
+              private network: Network,
+              private plateform: Platform) {
 
   	
   }
@@ -39,49 +43,7 @@ export class CenseurProfilPage {
   }
 
   ionViewWillEnter(){
-		let loading = this.loadingCtrl.create({
-      		content: "Veuillez patienter svp !!!"
-		});
-		loading.present();
-		this.storage.getItem('settings_user')
-		.then(
-			data => 
-			{
-				this.result = this.api.get('censeur/profil/'+ data.identifiant);
-				this.result.subscribe((res) => {
-					loading.dismiss();
-					if (res.status == true) {
-            this.nomprofil = res.data[0].nom;
-            this.prenomprofil = res.data[0].prenom;
-            this.ProfilCenseur.profilpicture = this.nomprofil.charAt(0)+this.prenomprofil.charAt(0);
-            this.ProfilCenseur.nom = res.data[0].nom;
-            this.ProfilCenseur.prenom = res.data[0].prenom;
-            this.ProfilCenseur.contact = res.data[0].telephone;
-            this.ProfilCenseur.email = res.data[0].email_mobile;
-            this.ProfilCenseur.adresse = res.data[0].adresse;
-					}
-				}, err => {
-					let alert = this.alertCtrl.create({
-						title: 'Error of get api',
-						subTitle: err.message,
-						buttons: ['Quitter']
-					});
-					alert.present();
-					console.error('ERROR', err);
-				});
-			},
-			error => 
-			{
-				loading.dismiss();
-				let alert = this.alertCtrl.create({
-								title: 'Error of get storage',
-								subTitle: error.message,
-								buttons: ['Quitter']
-							});
-							alert.present();
-				console.error(error);
-			}
-		);
+		this.getcenseurprofil();
   }
   
   changePassword()
@@ -120,7 +82,35 @@ export class CenseurProfilPage {
           }
   
         }, (err) => {
-          console.log('ERROR', err);
+          if (this.network.type == 'none' ) { 
+            this.errormessage = "Veillez verifier votre connexion internet";
+          } else {
+            this.errormessage = err.message;
+          }
+          
+          let alert = this.alertCtrl.create({
+            title: 'Problème de connection',
+            subTitle: this.errormessage,
+            buttons: [
+              {
+                text: 'Quitter',
+                handler: () => {
+                  this.plateform.exitApp();
+                }
+              },
+              {
+                text: 'Réessayer',
+                handler: () => {
+                  this.changePassword();
+                }
+              }
+              ]
+            });
+            
+            setTimeout(function(){
+              loading.dismiss();
+              alert.present();
+            }, 10000);
       });
   }
 
@@ -148,6 +138,76 @@ export class CenseurProfilPage {
       ]
     });
     confirm.present();
+  }
+
+
+  getcenseurprofil()
+  {
+    let loading = this.loadingCtrl.create({
+      content: "Veuillez patienter svp !!!"
+    });
+    loading.present();
+    this.storage.getItem('settings_user')
+    .then(
+    data => 
+    {
+    this.result = this.api.get('censeur/profil/'+ data.identifiant);
+    this.result.subscribe((res) => {
+      loading.dismiss();
+      if (res.status == true) {
+        this.nomprofil = res.data[0].nom;
+        this.prenomprofil = res.data[0].prenom;
+        this.ProfilCenseur.profilpicture = this.nomprofil.charAt(0)+this.prenomprofil.charAt(0);
+        this.ProfilCenseur.nom = res.data[0].nom;
+        this.ProfilCenseur.prenom = res.data[0].prenom;
+        this.ProfilCenseur.contact = res.data[0].telephone;
+        this.ProfilCenseur.email = res.data[0].email_mobile;
+        this.ProfilCenseur.adresse = res.data[0].adresse;
+      }
+    }, err => {
+      if (this.network.type == 'none' ) { 
+        this.errormessage = "Veillez verifier votre connexion internet";
+      } else {
+        this.errormessage = err.message;
+      }
+      
+      let alert = this.alertCtrl.create({
+        title: 'Problème de connection',
+        subTitle: this.errormessage,
+        buttons: [
+          {
+            text: 'Quitter',
+            handler: () => {
+              this.plateform.exitApp();
+            }
+          },
+          {
+            text: 'Réessayer',
+            handler: () => {
+              this.getcenseurprofil();
+            }
+          }
+          ]
+        });
+        
+        setTimeout(function(){
+          loading.dismiss();
+          alert.present();
+        }, 10000);
+    });
+  },
+  error => 
+    {
+      loading.dismiss();
+      let alert = this.alertCtrl.create({
+              title: 'Error of get storage',
+              subTitle: error.message,
+              buttons: ['Quitter']
+            });
+            alert.present();
+      console.error(error);
+    }
+  );
   }
 
 }

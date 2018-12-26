@@ -1,6 +1,7 @@
+import { Network } from '@ionic-native/network';
 import { Api } from './../../providers/api/api';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, PopoverController, LoadingController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, PopoverController, LoadingController, AlertController, Platform } from 'ionic-angular';
 
 import { ParentAcceuilPage } from '../parent-acceuil/parent-acceuil';
 import { ParentSignInPage } from '../parent-sign-in/parent-sign-in';
@@ -24,6 +25,7 @@ export class ParentLoginPage {
 
   setting: Settings = {type_user: "", identifiant: "", logged: false};
   result: any;
+  errormessage:any;
   
   constructor(public navCtrl: NavController, 
   			public navParams: NavParams, 
@@ -31,7 +33,9 @@ export class ParentLoginPage {
          private loadingCtrl: LoadingController,
          private alertCtrl: AlertController,
          private storage: NativeStorage, 
-         private api: Api) {
+         private api: Api,
+         private network: Network,
+         private plateform: Platform) {
   }
 
   ionViewDidLoad() {
@@ -125,18 +129,35 @@ export class ParentLoginPage {
   
         }, (err) => {
 					
-					let alert = this.alertCtrl.create({
-						title: 'Problème de connection',
-						subTitle: "Veillez verifier votre connexion internet",
-						buttons: ['Quitter']
-					});
-          
+					if (this.network.type == 'none' ) { 
+            this.errormessage = "Veillez verifier votre connexion internet";
+          } else {
+          this.errormessage = err.message;
+          }
+            
+            let alert = this.alertCtrl.create({
+            title: 'Problème de connection',
+            subTitle: this.errormessage,
+            buttons: [
+            {
+              text: 'Quitter',
+              handler: () => {
+                this.plateform.exitApp();
+            }
+            },
+            {
+              text: 'Réessayer',
+              handler: () => {
+                this.loginParentPage();
+            }
+            }
+            ]
+          });
+            
           setTimeout(function(){
-            loading.dismiss();
-            alert.present();
-					}, 10000);
-					
-					console.error('ERROR', err);
+          loading.dismiss();
+          alert.present();
+          }, 10000);
       });
   	
   }

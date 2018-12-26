@@ -2,13 +2,14 @@ import { Api } from './../../providers/api/api';
 import { Settings } from './../../models/settings';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, PopoverController, LoadingController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, PopoverController, LoadingController, AlertController, Platform } from 'ionic-angular';
 
 import { PopoverprofilComponent } from '../../components/popoverprofil/popoverprofil';
 import { CenseurAcceuilPage } from '../censeur-acceuil/censeur-acceuil';
 
 import { ProfesseurLoginPage } from '../professeur-login/professeur-login';
 import { ParentLoginPage } from '../parent-login/parent-login';
+import { Network } from '@ionic-native/network';
 
 @IonicPage()
 @Component({
@@ -18,7 +19,7 @@ import { ParentLoginPage } from '../parent-login/parent-login';
 export class CenseurLoginPage {
 
   ref = {email: '', password: ''};
-
+  errormessage: any;
   setting: Settings = {type_user: "", identifiant: "", logged: false};
   result: any;
 
@@ -28,7 +29,9 @@ export class CenseurLoginPage {
          private loadingCtrl: LoadingController,
          private alertCtrl: AlertController,
          private storage: NativeStorage, 
-         private api: Api) {
+         private api: Api,
+         private plateform: Platform,
+         private network: Network) {
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad CenseurLoginPage');
@@ -119,14 +122,35 @@ export class CenseurLoginPage {
               }
       
             }, (err) => {
-              loading.dismiss();
+              if (this.network.type == 'none' ) { 
+                this.errormessage = "Veillez verifier votre connexion internet";
+              } else {
+                this.errormessage = err.message;
+              }
+  
               let alert = this.alertCtrl.create({
-                title: 'Erreur api',
-                subTitle: err.message,
-                buttons: ['Quitter']
+                title: 'Problème de connection',
+                subTitle: this.errormessage,
+                buttons: [
+                  {
+                    text: 'Quitter',
+                    handler: () => {
+                      this.plateform.exitApp();
+                    }
+                  },
+                  {
+                    text: 'Réessayer',
+                    handler: () => {
+                      this.loginCenseurPage();
+                    }
+                  }
+                ]
               });
-              alert.present();
-              console.log('ERROR', err);
+              
+              setTimeout(function(){
+                loading.dismiss();
+                alert.present();
+              }, 10000);
           });
   }
 

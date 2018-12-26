@@ -1,7 +1,7 @@
+import { Network } from '@ionic-native/network';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ActionSheetController,
-	 LoadingController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ActionSheetController, LoadingController, AlertController, Platform } from 'ionic-angular';
 
 import {ProfesseurListeEleveClassePage} from 
 '../professeur-liste-eleve-classe/professeur-liste-eleve-classe';
@@ -17,6 +17,7 @@ export class ProfesseurListeClassePage {
 
 	classes: any = [];
 	result: any;
+	errormessage: any;
 	
   constructor(public navCtrl: NavController,
   			 public navParams: NavParams,
@@ -24,47 +25,14 @@ export class ProfesseurListeClassePage {
 				 private api:Api,
 				 private storage: NativeStorage,
 				 private loadingCtrl: LoadingController,
-				 private alertCtrl: AlertController) {
+				 private alertCtrl: AlertController,
+				 private network: Network,
+				 private plateform: Platform) {
   }
 
 	
 	ionViewWillEnter(){
-		let loading = this.loadingCtrl.create({
-      		content: "Veuillez patienter svp !!!"
-		});
-		loading.present();
-		this.storage.getItem('settings_user')
-		.then(
-			data => 
-			{
-				this.result = this.api.get('professeur/classe/'+ data.identifiant);
-				this.result.subscribe((res) => {
-					loading.dismiss();
-					if (res.status == true) {
-						this.classes = res.data;
-					}
-				}, err => {
-					let alert = this.alertCtrl.create({
-						title: 'Error of get api',
-						subTitle: err.message,
-						buttons: ['Quitter']
-					});
-					alert.present();
-					console.error('ERROR', err);
-				});
-			},
-			error => 
-			{
-				loading.dismiss();
-				let alert = this.alertCtrl.create({
-								title: 'Error of get storage',
-								subTitle: error.message,
-								buttons: ['Quitter']
-							});
-							alert.present();
-				console.error(error);
-			}
-		);
+		this.getlistclass();
 	}
 
   accederClasse(type, index)
@@ -149,6 +117,70 @@ export class ProfesseurListeClassePage {
   	
 
   	
+  }
+
+  getlistclass()
+  {
+
+	let loading = this.loadingCtrl.create({
+		content: "Veuillez patienter svp !!!"
+  });
+  loading.present();
+  this.storage.getItem('settings_user')
+  .then(
+	  data => 
+	  {
+		  this.result = this.api.get('professeur/classe/'+ data.identifiant);
+		  this.result.subscribe((res) => {
+			  loading.dismiss();
+			  if (res.status == true) {
+				  this.classes = res.data;
+			  }
+		  }, err => {
+			if (this.network.type == 'none' ) { 
+				this.errormessage = "Veillez verifier votre connexion internet";
+			  } else {
+				this.errormessage = err.message;
+			  }
+			  
+			  let alert = this.alertCtrl.create({
+				title: 'Problème de connection',
+				subTitle: this.errormessage,
+				buttons: [
+				  {
+					text: 'Quitter',
+					handler: () => {
+					  this.plateform.exitApp();
+					}
+				  },
+				  {
+					text: 'Réessayer',
+					handler: () => {
+					  this.getlistclass();
+					}
+				  }
+				]
+			  });
+			  
+			  setTimeout(function(){
+				loading.dismiss();
+				alert.present();
+			  }, 10000);
+		  });
+	  },
+	  error => 
+	  {
+		  loading.dismiss();
+		  let alert = this.alertCtrl.create({
+						  title: 'Error of get storage',
+						  subTitle: error.message,
+						  buttons: ['Quitter']
+					  });
+					  alert.present();
+		  console.error(error);
+	  }
+  );
+
   }
 
 }
