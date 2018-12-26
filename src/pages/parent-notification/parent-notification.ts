@@ -52,15 +52,19 @@ export class ParentNotificationPage {
 				this.result.subscribe((res) => {
 					loading.dismiss();
 					if (res.status === true) {
-						this.notifications = res.data;
+            this.notifications = res.data;
+          
+            this.notifications.forEach(element => {
+              if(element.VU == 0 && !this.localNotif.isPresent(element.ID_NOTIFICATION)) 
+              {
+                this.localNotif.schedule({
+                  id: element.ID_NOTIFICATION,
+                  text: element.MESSAGE,
+                  led: 'FF0000',
+                })
+              }
+            });
 						
-						// if(this.size_non_valide != 0)
-						// {
-						// 	this.localNotif.schedule({
-						// 		text: 'Vous avez notifications en attente de validation.',
-						// 		led: 'FF0000',
-						// 	});
-						// }
 					}
 				}, err => {
 

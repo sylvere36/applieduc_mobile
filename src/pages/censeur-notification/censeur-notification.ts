@@ -109,11 +109,13 @@ export class CenseurNotificationPage {
 						this.size_non_valide = res.size_non_valide;
 
 						
-						if(this.size_non_valide != 0)
+						if(this.size_non_valide != 0 && !this.localNotif.isScheduled(1))
 						{
 							this.localNotif.schedule({
+                id: 1,
 								text: 'Vous avez '+ this.size_non_valide + ' notifications en attente de validation.',
-								led: 'FF0000',
+                led: 'FF0000',
+                trigger: {at: new Date(new Date().getTime() + 3600)}
 							});
 						}
 					}
