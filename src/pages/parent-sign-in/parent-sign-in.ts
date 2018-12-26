@@ -157,4 +157,12 @@ export class ParentSignInPage {
       });
   }
 
+  gotologinparentpage()
+  {
+    this.navCtrl.setRoot(ProfesseurLoginPage, {}, {
+      animate: true,
+      direction: 'forward'
+    });
+  }
+
 }
