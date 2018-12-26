@@ -1,12 +1,10 @@
 import { Api } from './../../providers/api/api';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IonicPage, NavController, NavParams, PopoverController, App, LoadingController, AlertController, Platform } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, App, LoadingController, AlertController, Platform } from 'ionic-angular';
 
 import { Profil } from '../../models/profil';
 import { ProfesseurLoginPage } from '../professeur-login/professeur-login';
-import { ProfesseurAcceuilPage } from '../professeur-acceuil/professeur-acceuil';
 import { Network } from '@ionic-native/network';
 
 @IonicPage()

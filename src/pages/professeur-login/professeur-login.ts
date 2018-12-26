@@ -73,31 +73,35 @@ export class ProfesseurLoginPage {
     });
 
     popover.onDidDismiss(popoverData => {
-      console.log(popoverData);
+      
+      try {
+        if(popoverData.Page == 0)
+        {
+          this.navCtrl.setRoot(CenseurLoginPage, {}, {
+            animate: true,
+            direction: 'forward'
+          });
+        }
 
-      if(popoverData.Page == 0)
-      {
-        this.navCtrl.setRoot(CenseurLoginPage, {}, {
-          animate: true,
-          direction: 'forward'
-        });
+        if(popoverData.Page == 1)
+        {
+          this.navCtrl.setRoot(ParentLoginPage, {}, {
+            animate: true,
+            direction: 'forward'
+          });
+        }
+
+        if(popoverData.Page == 2)
+        {
+          this.navCtrl.setRoot(ProfesseurLoginPage, {}, {
+            animate: true,
+            direction: 'forward'
+          });
+        }
+      } catch (e) {
       }
 
-       if(popoverData.Page == 1)
-      {
-         this.navCtrl.setRoot(ParentLoginPage, {}, {
-          animate: true,
-          direction: 'forward'
-        });
-      }
-
-       if(popoverData.Page == 2)
-      {
-         this.navCtrl.setRoot(ProfesseurLoginPage, {}, {
-          animate: true,
-          direction: 'forward'
-        });
-      }
+      
     });
   }
 

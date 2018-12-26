@@ -12,45 +12,10 @@
 
 <ion-content>
   
-    <!-- <ion-list>
-
-      <ion-avatar item-start>
-            <ion-text-avatar>{{ ProfilProfesseur.profilpicture }}</ion-text-avatar>
-      </ion-avatar>
-
-      <ion-item>
-      	<ion-label fixed>Nom: </ion-label>
-        <ion-input type="text" value="{{ ProfilProfesseur.nom }}">
-        </ion-input>
-      </ion-item>
-      <ion-item>
-      	<ion-label fixed>Prénom: </ion-label>
-        <ion-input type="text">
-        </ion-input>
-      </ion-item>
-      <ion-item>
-      	<ion-label fixed>Contact: </ion-label>
-        <ion-input type="text" >
-        </ion-input>
-      </ion-item>
-      <ion-item>
-      	<ion-label fixed>Email: </ion-label>
-        <ion-input type="text">
-        </ion-input>
-      </ion-item>
-      <ion-item>
-      	<ion-label fixed>Adresse: </ion-label>
-        <ion-input type="text">
-        </ion-input>
-      </ion-item><br>
-    </ion-list>
-   <button ion-button  [disabled]="!isReadyToSave" block>
-        Enregistrer
-    </button><br> -->
 
     <form>
         <div class="profile-image-wrapper">
-          <div class="profile-image-placeholder" *ngIf="!this.form.controls.profilePic.value">
+          <div class="profile-image-placeholder">
             <div id="avatar">
                 {{ ProfilProfesseur.profilpicture }}
             </div>
@@ -78,8 +43,5 @@
             <ion-label>{{ ProfilProfesseur.adresse }}</ion-label>
           </ion-item><br>
         </ion-list>
-       <!-- <button ion-button (click)="done()" [disabled]="!isReadyToSave" text-center>
-            Enregistrer
-        </button><br> -->
       </form>
 </ion-content>

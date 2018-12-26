@@ -1,9 +1,4 @@
-<!--
-  Generated template for the ParentNotificationPage page.
 
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-toolbar color="primary">
@@ -14,5 +9,59 @@
 
 
 <ion-content padding>
-	<p>Aucune notification</p>
+	<!-- <div *ngIf="notifications; else Notnotif">
+    <ion-card  *ngFor="let notif of notifications"  >
+        <ion-card-content>
+          <ion-row no-padding>
+              <ion-col text-right>
+                  <ion-badge item-end color="danger" *ngIf="notif.VU == 0">1</ion-badge>
+              </ion-col>
+          </ion-row>
+          
+          <p>
+            {{ notif.MESSAGE }}
+          </p>
+        </ion-card-content>
+    
+        <ion-row no-padding>
+          <ion-col text-right>
+              <button ion-button clear small color="primary" icon-start>
+                  <ion-icon name="calendar"></ion-icon>
+                  {{ notif.DATE_CREATION | relativeTimes }}
+                </button>
+          </ion-col>
+        </ion-row>
+    </ion-card>
+  </div> -->
+  
+
+  <div *ngIf="notifications; else Notnotif">
+    <ion-list>
+      <ion-item *ngFor="let notif of notifications" (click)="vu(notif.ID_NOTIFICATION)" >
+        <ion-row no-padding>
+            <ion-col text-right>
+                <ion-badge item-end color="danger" *ngIf="notif.VU == 0">1</ion-badge>
+            </ion-col>
+        </ion-row>
+        <p>
+          {{ notif.MESSAGE }}
+        </p>
+        <ion-thumbnail>
+          <ion-row no-padding>
+            <ion-col text-right>
+                <button ion-button clear small color="primary" icon-start>
+                    <ion-icon name="calendar"></ion-icon>
+                    {{ notif.DATE_CREATION | relativeTimes }}
+                </button>
+            </ion-col>
+          </ion-row>
+        </ion-thumbnail>
+        
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <ng-template #Notnotif>
+    <p text-center>Aucune notification</p>
+  </ng-template>
 </ion-content>

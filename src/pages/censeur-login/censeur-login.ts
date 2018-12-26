@@ -22,6 +22,7 @@ export class CenseurLoginPage {
   errormessage: any;
   setting: Settings = {type_user: "", identifiant: "", logged: false};
   result: any;
+  public backgroundImage = 'assets/img/background/background-5.jpg';
 
   constructor(public navCtrl: NavController,
   			 public navParams: NavParams,
@@ -44,31 +45,35 @@ export class CenseurLoginPage {
     });
 
     popover.onDidDismiss(popoverData => {
-      console.log(popoverData);
+      try {
+        if(popoverData.Page == 0)
+        {
+          this.navCtrl.setRoot(CenseurLoginPage, {}, {
+            animate: true,
+            direction: 'forward'
+          });
+        }
 
-      if(popoverData.Page == 0)
-      {
-        this.navCtrl.setRoot(CenseurLoginPage, {}, {
-          animate: true,
-          direction: 'forward'
-        });
+        if(popoverData.Page == 1)
+        {
+          this.navCtrl.setRoot(ParentLoginPage, {}, {
+            animate: true,
+            direction: 'forward'
+          });
+        }
+
+        if(popoverData.Page == 2)
+        {
+          this.navCtrl.setRoot(ProfesseurLoginPage, {}, {
+            animate: true,
+            direction: 'forward'
+          });
+        }
+      } catch (e) {
+          //click more than one time popover throws error, so ignore...
       }
 
-       if(popoverData.Page == 1)
-      {
-         this.navCtrl.setRoot(ParentLoginPage, {}, {
-          animate: true,
-          direction: 'forward'
-        });
-      }
-
-       if(popoverData.Page == 2)
-      {
-         this.navCtrl.setRoot(ProfesseurLoginPage, {}, {
-          animate: true,
-          direction: 'forward'
-        });
-      }
+      
     });
   }
 

@@ -1,4 +1,4 @@
-<ion-header>
+<!-- <ion-header>
 
   <ion-toolbar color="primary">
       	<ion-title>CONNEXION</ion-title>
@@ -9,10 +9,10 @@
 		</ion-buttons>
   </ion-toolbar>
 
-</ion-header>
+</ion-header> -->
 
 
-<ion-content padding class="contentLoginPage">
+<!-- <ion-content padding class="contentLoginPage">
 		<p>
 			<img src="assets/schooImg/schoolink_logo.jpg" class="slide-image"/>
 		</p>
@@ -37,4 +37,51 @@
 	        </button><br>
 		</p>
 			
+</ion-content> -->
+
+
+<ion-content padding class="transparent-header" [ngStyle]="{'background-image': 'url(' + backgroundImage +')'}">
+	<ion-header>
+	  <ion-navbar color='primary'>
+			<ion-title>CONNEXION</ion-title>
+			<ion-buttons end>
+			  <button ion-button icon-only (click)="presentPopover($event)">
+				  <ion-icon name="more"></ion-icon>
+			  </button>
+		  	</ion-buttons>
+	  </ion-navbar>
+	</ion-header>
+	<div padding>
+	  <ion-row>
+		<ion-col>
+		  <img class="logo" src="assets/schooImg/schoolink_logo.jpg" />
+		</ion-col>
+	  </ion-row>
+	  <ion-row>
+		<ion-col>
+		  <ion-list inset class="no-border">
+			<ion-item>
+			  <ion-label>Email</ion-label>
+			  <ion-input type="text" [(ngModel)]="ref.email"></ion-input>
+			</ion-item>
+			<ion-item>
+			  <ion-label>Mot de Passe</ion-label>
+			  <ion-input type="password" [(ngModel)]="ref.password"></ion-input>
+			</ion-item>
+		  </ion-list>
+		</ion-col>
+	  </ion-row>
+	  <ion-row>
+		<ion-col>
+		  <button ion-button class="login-button" (click)="loginCenseurPage()">Connexion</button>
+		</ion-col>
+	  </ion-row>
+	  <ion-row>
+		<ion-col>
+		  <div>
+			<span>Mot de passe oublié ?</span>
+		  </div>
+		</ion-col>
+	  </ion-row>
+	</div>
 </ion-content>

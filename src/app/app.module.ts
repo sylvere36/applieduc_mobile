@@ -1,3 +1,4 @@
+import { ModalViewNotifParentComponent } from './../components/modal-view-notif-parent/modal-view-notif-parent';
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
@@ -49,6 +50,8 @@ import { CenseurViewNotePage } from '../pages/censeur-view-note/censeur-view-not
 import { Api } from '../providers/api/api';
 import { ProfesseurProvider } from '../providers/professeur/professeur';
 import { SearchPipe } from '../pipes/search/search';
+import { RelativeTimesPipe } from './../pipes/relative-times/relative-times';
+
 
 
 @NgModule({
@@ -78,10 +81,12 @@ import { SearchPipe } from '../pipes/search/search';
     CenseurViewNotePage,
 
     ModalDetailNoteEleveComponent,
+    ModalViewNotifParentComponent,
     PopoverprofilComponent,
     PopoverdeconnexionComponent,
     IonTextAvatar,
-    SearchPipe
+    SearchPipe,
+    RelativeTimesPipe
   ],
   imports: [
     BrowserModule,
@@ -116,6 +121,7 @@ import { SearchPipe } from '../pipes/search/search';
     CenseurViewNotePage,
 
     ModalDetailNoteEleveComponent,
+    ModalViewNotifParentComponent,
     PopoverprofilComponent,
     PopoverdeconnexionComponent
   ],
