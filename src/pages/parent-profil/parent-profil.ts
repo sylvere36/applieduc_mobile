@@ -59,7 +59,6 @@ export class ParentProfilPage {
     );
   }
 
-  changePassword(){}
 
   logoutparent()
   {
@@ -153,6 +152,74 @@ export class ParentProfilPage {
         console.error(error);
       }
     );
+  }
+
+  changePassword()
+  {
+    this.updatepass.email = this.ProfilParent.email;
+    let loading = this.loadingCtrl.create({
+      content: "Veuillez patienter svp !!!"
+    });
+
+    loading.present();
+
+    this.api.post('parents/updatepass', this.updatepass).then((results) => {
+        loading.dismiss();
+        
+        this.result = results;
+  
+          if(this.result.status === true)
+          {
+            let alert = this.alertCtrl.create({
+              title: 'Succès',
+              subTitle: this.result.message,
+              buttons: ['Quitter']
+            });
+            alert.present();
+
+            this.updatepass =  {passactuel: "", newpass: "", confirmpass: "", email: ""};
+          
+          }else
+          {
+            let alert = this.alertCtrl.create({
+              title: 'Erreur',
+              subTitle: this.result.message,
+              buttons: ['Quitter']
+            });
+            alert.present();
+          }
+  
+        }, (err) => {
+          if (this.network.type == 'none' ) { 
+            this.errormessage = "Veillez verifier votre connexion internet";
+          } else {
+            this.errormessage = err.message;
+          }
+          
+          let alert = this.alertCtrl.create({
+            title: 'Problème de connection',
+            subTitle: this.errormessage,
+            buttons: [
+              {
+                text: 'Quitter',
+                handler: () => {
+                  this.plateform.exitApp();
+                }
+              },
+              {
+                text: 'Réessayer',
+                handler: () => {
+                  this.changePassword();
+                }
+              }
+              ]
+            });
+            
+            setTimeout(function(){
+              loading.dismiss();
+              alert.present();
+            }, 10000);
+      });
   }
 
 }
