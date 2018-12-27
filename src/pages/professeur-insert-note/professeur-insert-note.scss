@@ -1,8 +1,10 @@
 page-professeur-insert-note {
    
 }
-
-.toastSuccess
+.toastsucesscss
 {
-    background-color: green;
+    > div{
+        background-color:#69b37f!important;
+    }
+    color: #eee;
 }

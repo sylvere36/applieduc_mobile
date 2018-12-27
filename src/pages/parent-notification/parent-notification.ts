@@ -69,7 +69,7 @@ export class ParentNotificationPage {
 				}, err => {
 
 					if (this.network.type == 'none' ) { 
-            this.errormessage = "Veillez verifier votre connexion internet";
+            this.errormessage = "Veuillez verifier votre connexion internet";
           } else {
             this.errormessage = err.message;
           }
@@ -131,7 +131,7 @@ export class ParentNotificationPage {
             
 				}, err => {
 					if (this.network.type == 'none' ) { 
-            this.errormessage = "Veillez verifier votre connexion internet";
+            this.errormessage = "Veuillez verifier votre connexion internet";
           } else {
             this.errormessage = err.message;
           }
